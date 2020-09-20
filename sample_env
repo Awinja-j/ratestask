@@ -1,0 +1,2 @@
+export DATABASE_URL='postgres://{user}:{password}@{hostname}:{port}/{database-name}'
+export APP_ID='app_id_from_open_exchange_rate'
