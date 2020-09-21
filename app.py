@@ -20,59 +20,59 @@ def healthcheck():
 
 @app.route('/rates', methods=['GET'])
 def rates():
-    date_from=request.args.get('date_from')
-    date_to=request.args.get('date_to')
-    origin=request.args.get('origin')
-    destination=request.args.get('destination')
-    # query = "select price from prices where orig_code = '{}' and dest_code = '{}'".format(origin, destination)
 
-    #get the origin
-    query2 = " select code from ports where '{}' in (code, parent_slug)".format(origin)
-    print(query2)
-    origin = engine.execute(query2).first()
-    origin = ''.join(origin)
+    try:
 
-    #get the destination
-    query3 = " select code from ports where '{}' in (code, parent_slug)".format(destination)
-    print(query3)
-    destination = engine.execute(query3).first()
-    destination = ''.join(destination)
+        date_from=request.args.get('date_from')
+        date_to=request.args.get('date_to')
+        origin=request.args.get('origin')
+        destination=request.args.get('destination')
 
-    #get record between dates
-    query = "select * from prices where day between '{}' and '{}' and orig_code='{}' and dest_code='{}' ".format(date_from, date_to, origin, destination)
-    print(query)
-    result = engine.execute(query)
+        #get the origin
+        query2 = " select code from ports where '{}' in (code, parent_slug)".format(origin)
+        origin = engine.execute(query2).first()
+        origin = ''.join(origin)
 
+        #get the destination
+        query3 = " select code from ports where '{}' in (code, parent_slug)".format(destination)
+        destination = engine.execute(query3).first()
+        destination = ''.join(destination)
 
-    return jsonify({"date_from": date_from, "date_to": date_to, "origin": origin, "destination": destination, "result": [dict(row) for row in result]})
+        #get record between dates
+        query = "select day, avg(cast(price as float)) as average_price from prices where orig_code = '{}' and dest_code = '{}' and day between '{}' and '{}' group by day;".format(origin, destination, date_from, date_to)
+        result = engine.execute(query)
+        return jsonify({"date_from": date_from, "date_to": date_to, "origin": origin, "destination": destination, "result": [dict(row) for row in result]})
+
+    except:
+        return jsonify({"Error": "Missing argument"})
 
 @app.route('/rates_null', methods=['GET'])
 def rates_null():
-    date_from=request.args.get('date_from')
-    date_to=request.args.get('date_to')
-    origin=request.args.get('origin')
-    destination=request.args.get('destination')
-    # query = "select price from prices where orig_code = '{}' and dest_code = '{}'".format(origin, destination)
+    try:
 
-    #get the origin
-    query2 = " select code from ports where '{}' in (code, parent_slug)".format(origin)
-    print(query2)
-    origin = engine.execute(query2).first()
-    origin = ''.join(origin)
+        date_from=request.args.get('date_from')
+        date_to=request.args.get('date_to')
+        origin=request.args.get('origin')
+        destination=request.args.get('destination')
 
-    #get the destination
-    query3 = " select code from ports where '{}' in (code, parent_slug)".format(destination)
-    print(query3)
-    destination = engine.execute(query3).first()
-    destination = ''.join(destination)
+        #get the origin
+        query2 = " select code from ports where '{}' in (code, parent_slug)".format(origin)
+        origin = engine.execute(query2).first()
+        origin = ''.join(origin)
 
-    #get record between dates
-    query = "select * from prices where day between '{}' and '{}' and orig_code='{}' and dest_code='{}' ".format(date_from, date_to, origin, destination)
-    print(query)
-    result = engine.execute(query)
+        #get the destination
+        query3 = " select code from ports where '{}' in (code, parent_slug)".format(destination)
+        destination = engine.execute(query3).first()
+        destination = ''.join(destination)
 
+        #get record between dates
+        query = "select day, avg(cast(price as float)) as average_price from prices where orig_code = '{}' and dest_code = '{}' and day between '{}' and '{}' group by day having count(*) >2;".format(origin, destination, date_from, date_to)
+        result = engine.execute(query)
 
-    return jsonify({"date_from": date_from, "date_to": date_to, "origin": origin, "destination": destination, "result": [dict(row) for row in result]})
+        return jsonify({"date_from": date_from, "date_to": date_to, "origin": origin, "destination": destination, "result": [dict(row) for row in result]})
+    
+    except:
+        return jsonify({"Error": "Missing argument"})
 
 @app.route('/rates', methods=['POST'])
 def rates_post():

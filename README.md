@@ -89,7 +89,10 @@ Extend that API endpoint so that it could accept prices in different currencies.
 
 | Description    | HTTP Method | URL           | Params | Response w/o Payload | Response w/ Payload |
 |----------------|-------------|---------------|--------|----------------------|---------------------|
-| Upload a price | GET         | /upload_price |        |                      |                     |
+| Upload a price | POST         | /rates |  date=2016-01-01&origin_code=china_east_main&destination_code=north_europe_main&price=2000      |                      |                     |
+
+
+https://github.com/Awinja-j/ratestask/blob/master/Screenshot%202020-09-21%20at%2003.51.16.png
 
 
 ## Question 2:
