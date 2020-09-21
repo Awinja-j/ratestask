@@ -66,8 +66,10 @@ Make a second API endpoint return an empty value (JSON null) for days on which t
 | Description                                                                                              | HTTP Method | URL     | Params                                                                             | Response w/o Payload | Response w/ Payload |
 |----------------------------------------------------------------------------------------------------------|-------------|---------|------------------------------------------------------------------------------------|----------------------|---------------------|
 | Returns a list with the average prices for each day on a route between port codes origin and destination | GET         | /rates  | date_from=2016-01-01&date_to=2016-01-10&origin=CNSGH&destination=north_europe_main |                      |                     |
-| Return an empty value (JSON null) for days on which there are less than 3 prices in total                | GET         | /prices | N/A                                                                                |                      |                     |
-| health check                                                                                             | GET         | /       | N/A                                                                                |                      |                     |
+| Return an empty value (JSON null) for days on which there are less than 3 prices in total                | GET         | /rates_null | N/A                                                                                |                      |                     |
+| health check                                                                                             | GET         | /       | N/A                                                                                |  {
+  "heathcheck": "Everything is Fine, Houston"
+}                    |                     |
 
 ### POST Request Task
 Part 1
@@ -88,7 +90,6 @@ Extend that API endpoint so that it could accept prices in different currencies.
 | Description    | HTTP Method | URL           | Params | Response w/o Payload | Response w/ Payload |
 |----------------|-------------|---------------|--------|----------------------|---------------------|
 | Upload a price | GET         | /upload_price |        |                      |                     |
-| health check   | GET         | /             | N/A    |                      |                     |
 
 
 ## Question 2:
