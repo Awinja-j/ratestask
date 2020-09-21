@@ -71,6 +71,10 @@ Make a second API endpoint return an empty value (JSON null) for days on which t
   "heathcheck": "Everything is Fine, Houston"
 }                    |                     |
 
+
+https://github.com/Awinja-j/ratestask/blob/master/Screenshot%202020-09-21%20at%2005.33.53.png
+
+
 ### POST Request Task
 Part 1
 Implement an API endpoint where you can upload a price, including the following parameters:
