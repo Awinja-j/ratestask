@@ -104,3 +104,38 @@ https://github.com/Awinja-j/ratestask/blob/master/Screenshot%202020-09-21%20at%2
 Describe the system you would design for handling the Batch Processing Task.
 
 Imagine you need to receive and update batches of tens of thousands of new prices, conforming to a similar format. Describe, using a couple of paragraphs, how you would design the system to be able to handle those requirements. Which factors do you need to take into consideration?
+
+Batch processing is processing transactions in batches. Batches run always asynchronous in their own thread pool.
+A thread pool can manage concurrent execution of large number of threads as follows:
+
+- If a thread in a thread pool completes its execution then that thread can be reused.
+- If a thread is terminated, another thread will be created to replace that thread.
+
+1. Split functionality
+For the rates task, I would create a separate file for each functionality, which can be imported to the batch processing file.
+
+2. Ensure each file has a main functionality
+This functionality usually dictates where the script starts running from. 
+typically looks like this
+
+```
+if __name__ == '__main__':
+    name_of_function()
+```
+
+3. Create a batch processing script
+
+your three scripts must have the .py ending to be importable - they should either be in Python's search path, or the batch control script can set the path.
+
+```
+import sys
+sys.path.insert(0, '/location/of/subscripts')
+
+import first_script
+import second_script
+import third_script
+
+first_script.main('/location/of/files')
+second_script.main('/location/of/files')
+third_script.main('/location/of/files')
+```
